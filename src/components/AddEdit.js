@@ -37,15 +37,17 @@ const AddEdit = ({name, taskTitle, taskContent}) => {
           return console.log(err);
         });
     } else {
-      updateTask(rootTitle, title, content).then((data) => {
-        console.log(data);
-        if (data === false) {
-          return Alert.alert('Task is exist already!');
-        } else {
-          navigation.navigate('Home');
-        }
-      });
-      navigation.navigate('Home');
+      updateTask(rootTitle, title, content)
+        .then((data) => {
+          if (data === false) {
+            return Alert.alert('Task is exist already!');
+          } else {
+            navigation.navigate('Home');
+          }
+        })
+        .catch((err) => {
+          return console.log(err);
+        });
     }
   };
 

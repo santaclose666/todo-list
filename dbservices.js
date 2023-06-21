@@ -112,6 +112,7 @@ export const updateTask = (rootTitle, newTitle, content) => {
                 [newTitle, content, rootTitle],
                 (sqlTxn, res) => {
                   console.log('update successfully');
+                  resolve(true);
                 },
                 (err) => {
                   console.log('falied to update', err);
@@ -121,7 +122,7 @@ export const updateTask = (rootTitle, newTitle, content) => {
           }
         },
         (err) => {
-          console.log(err);
+          reject(err);
         },
       );
     });
