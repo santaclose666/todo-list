@@ -26,6 +26,7 @@ const AddEdit = ({name, taskTitle, taskContent}) => {
     if (name === 'ADD TASK') {
       addTask(title, content)
         .then((data) => {
+          console.log(data);
           if (data === false) {
             return Alert.alert('Task is exist already!');
           } else {
@@ -36,8 +37,14 @@ const AddEdit = ({name, taskTitle, taskContent}) => {
           return console.log(err);
         });
     } else {
-      console.log(name);
-      updateTask(rootTitle, title, content);
+      updateTask(rootTitle, title, content).then((data) => {
+        console.log(data);
+        if (data === false) {
+          return Alert.alert('Task is exist already!');
+        } else {
+          navigation.navigate('Home');
+        }
+      });
       navigation.navigate('Home');
     }
   };

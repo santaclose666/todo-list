@@ -44,9 +44,8 @@ const Home = () => {
   };
 
   useEffect(() => {
+    createTable();
     if (isFocused) {
-      createTable();
-
       getAllTask()
         .then((data) => {
           setTodoArr(data);

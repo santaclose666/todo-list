@@ -97,16 +97,33 @@ export const DelTask = (title) => {
 };
 
 export const updateTask = (rootTitle, newTitle, content) => {
-  db.transaction((txn) => {
-    txn.executeSql(
-      `UPDATE todo SET todoName = ?, content = ? WHERE todoName = ?;`,
-      [newTitle, content, rootTitle],
-      (sqlTxn, res) => {
-        console.log('update successfully');
-      },
-      (err) => {
-        console.log('falied to update', err);
-      },
-    );
+  return new Promise((resolve, reject) => {
+    db.transaction((txn) => {
+      txn.executeSql(
+        `SELECT todoName FROM todo WHERE todoName = ?;`,
+        [newTitle],
+        (sqlTxn, res) => {
+          if (res.rows.length !== 0) {
+            resolve(false);
+          } else {
+            db.transaction((txn) => {
+              txn.executeSql(
+                `UPDATE todo SET todoName = ?, content = ? WHERE todoName = ?;`,
+                [newTitle, content, rootTitle],
+                (sqlTxn, res) => {
+                  console.log('update successfully');
+                },
+                (err) => {
+                  console.log('falied to update', err);
+                },
+              );
+            });
+          }
+        },
+        (err) => {
+          console.log(err);
+        },
+      );
+    });
   });
 };
